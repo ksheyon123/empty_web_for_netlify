@@ -1,24 +1,37 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const _getDeviceInfo = useCallback(async () => {
+    try {
+      const constraints = { video: { facingMode: 'user' } };
+      console.log("tt");
+      console.log("navigator.mediaDevices", navigator.mediaDevices);
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        console.log("i")
+        let a = await navigator.mediaDevices.getUserMedia(constraints);
+        handleSuccess(a);
+      }
+    } catch (e) {
+      handleError(e);
+      throw e;
+    }
+  }, []);
+  const handleSuccess = (stream : any) => {
+    console.log(stream);
+  }
+  const handleError = (error : any) => {
+    console.error('Error: ', error);
+  }
+
+  useEffect(() => {
+    _getDeviceInfo();
+  }, [_getDeviceInfo]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input placeholder="텍스트" />
     </div>
   );
 }
