@@ -10,9 +10,10 @@ function App() {
       console.log("navigator.mediaDevices", navigator.mediaDevices);
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         console.log("i")
-        await navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-          console.log("stream", stream);
-        })
+        await navigator.permissions.query({name : "camera"});
+        // await navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+          
+        // })
       }
     } catch (e) {
       console.log(e);
