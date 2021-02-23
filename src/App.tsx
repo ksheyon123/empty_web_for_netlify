@@ -11,6 +11,7 @@ function App() {
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         console.log("i")
         let a = await navigator.mediaDevices.getUserMedia(constraints);
+        console.log(a);
         handleSuccess(a);
       }
     } catch (e) {
