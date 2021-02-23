@@ -10,21 +10,15 @@ function App() {
       console.log("navigator.mediaDevices", navigator.mediaDevices);
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         console.log("i")
-        let a = await navigator.mediaDevices.getUserMedia(constraints);
-        console.log(a);
-        handleSuccess(a);
+        await navigator.mediaDevices.getUserMedia(constraints).then(stream => {
+          console.log("stream", stream);
+        })
       }
     } catch (e) {
-      handleError(e);
+      console.log(e);
       throw e;
     }
   }, []);
-  const handleSuccess = (stream : any) => {
-    console.log(stream);
-  }
-  const handleError = (error : any) => {
-    console.error('Error: ', error);
-  }
 
   useEffect(() => {
     _getDeviceInfo();
@@ -33,6 +27,7 @@ function App() {
   return (
     <div className="App">
       <input placeholder="텍스트" />
+      <video id="vid" height="120" width="160"></video>
     </div>
   );
 }
