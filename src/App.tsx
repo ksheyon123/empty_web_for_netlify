@@ -1,34 +1,37 @@
 import React, { useCallback, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
-function App() {
-  const _getDeviceInfo = useCallback(async () => {
-    try {
-      const constraints = { video: { facingMode: 'user' } };
-      console.log("tt");
-      console.log("navigator.mediaDevices", navigator.mediaDevices);
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        console.log("i")
-        await navigator.permissions.query({name : "camera"});
-        // await navigator.mediaDevices.getUserMedia(constraints).then(stream => {
-          
-        // })
-      }
-    } catch (e) {
-      console.log(e);
-      throw e;
-    }
-  }, []);
-
+const App: React.FC = () => {
   useEffect(() => {
-    _getDeviceInfo();
-  }, [_getDeviceInfo]);
+    window.removeEventListener("message", eventHandler);
+    window.addEventListener("message", eventHandler);
+
+  }, [])
+
+
+  const eventHandler = async (event: any) => {
+    const { data } = event;
+    const parsedData = JSON.parse(data);
+    const { error } = parsedData;
+    console.log("data", data);
+    console.log("error", error);
+  };
 
   return (
     <div className="App">
-      <input placeholder="텍스트" />
-      <video id="vid" height="120" width="160"></video>
+      <iframe
+        title="test"
+        src="https://hardwallet.icon.foundation/index_jw.html?method=getBalance&lang=en&networkVer=v3&popupType=INITIAL"
+        width="400px"
+        height="400px"
+      />
+      <iframe
+        title="test"
+        src="http://localhost:3000?method=getBalance&lang=en&networkVer=v3&popupType=INITIAL"
+        width="400px"
+        height="400px"
+        sandbox="allow-forms allow-scripts allow-same-origin"
+      />
     </div>
   );
 }
